@@ -6,8 +6,8 @@
 </head>
 <body>
     <h1>Result</h1>
-    <p th:text="'title: ' + ${post.title}"/>
-    <p th:text="'text: ' + ${post.text}"/>
+    <p th:text="'title: ' + ${postPayload.title}"/>
+    <p th:text="'text: ' + ${postPayload.text}"/>
     <a href="/post">Submit another message</a>
 </body>
 </html>

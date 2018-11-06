@@ -6,7 +6,9 @@
 </head>
 <body>
 <h1>Form</h1>
-<form action="#" th:action="@{/post}" th:object="${post}" method="post">
+<form action="#" th:action="@{/post}" th:object="${post_payload}" method="post">
+    <p>User Id: <input type="text" th:field="*{userId}" /></p>
+    <p>Password: <input type="text" th:field="*{password}" /></p>
     <p>Title: <input type="text" th:field="*{title}" /></p>
     <p>Message: <input type="text" th:field="*{text}" /></p>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
