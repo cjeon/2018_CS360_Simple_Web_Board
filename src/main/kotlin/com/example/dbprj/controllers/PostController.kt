@@ -17,13 +17,13 @@ class PostController {
     @NonNull var postServiceImpl: PostServiceImpl? = null
 
     @GetMapping("/post")
-    fun greetingForm(model: Model): String {
+    fun getPost(model: Model): String {
         model.addAttribute("post", Post())
         return "post"
     }
 
     @PostMapping("/post")
-    fun greetingSubmit(@ModelAttribute post: Post): String {
+    fun postPost(@ModelAttribute post: Post): String {
         if (post.title == null || post.text == null) {
             return ""
         }
