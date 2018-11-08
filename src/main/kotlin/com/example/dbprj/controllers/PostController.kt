@@ -31,7 +31,7 @@ class PostController {
     }
 
     @PostMapping("/post")
-    fun postPost(model: Model, @ModelAttribute postPayload: PostPayload): RedirectView {
+    fun createPost(model: Model, @ModelAttribute postPayload: PostPayload): RedirectView {
         if (!postPayload.validatePayload(userServiceImpl)) {
             return RedirectView("error")
         }
@@ -42,7 +42,7 @@ class PostController {
     }
 
     @GetMapping("/post/{post_id}")
-    fun viewPost(model: Model, @PathVariable(value="post_id") post_id: String): String {
+    fun readPost(model: Model, @PathVariable(value="post_id") post_id: String): String {
         val post = postServiceImpl?.repo?.findById(post_id.toLong())
         if (post?.isPresent == true) {
             model.addAttribute("title", post.get().title)
