@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 
 
@@ -29,12 +30,23 @@ class PostController {
     }
 
     @PostMapping("/post")
-    fun postPost(@ModelAttribute postPayload: PostPayload): String {
+    fun postPost(model: Model, @ModelAttribute postPayload: PostPayload): RedirectView {
         if (!postPayload.validatePayload(userServiceImpl)) {
             return "error"
         }
         postServiceImpl?.createPost(postPayload.toPostEntity())
         return "view"
+        model.addAttribute("title", postPayload.title)
+        model.addAttribute("text", postPayload.text)
+    @GetMapping("/post/{post_id}")
+    fun viewPost(model: Model, @PathVariable(value="post_id") post_id: String): String {
+        val post = postServiceImpl?.repo?.findById(post_id.toLong())
+        if (post?.isPresent == true) {
+            model.addAttribute("title", post.get().title)
+            model.addAttribute("text", post.get().text)
+            return "view"
+        }
+        return "error"
     }
 }
 
