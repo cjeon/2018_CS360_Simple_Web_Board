@@ -10,7 +10,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "Post")
 data class Post(@Id
-                @GeneratedValue(strategy = GenerationType.AUTO)
+                @GeneratedValue(strategy = GenerationType.IDENTITY)
                 var id: Long? = null,
                 @field:CreationTimestamp
                 @Temporal(TemporalType.TIMESTAMP)
