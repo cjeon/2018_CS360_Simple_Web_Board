@@ -1,0 +1,16 @@
+language: java
+jdk: oraclejdk8
+services:
+  mysql
+
+before_install:
+  - sudo mysql -e "use mysql; CREATE USER '20130570_db'@'localhost' IDENTIFIED BY '20130570_db'; GRANT ALL PRIVILEGES ON *.* TO '20130570_db'@'localhost'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo service mysql restart
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
