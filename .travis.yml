@@ -1,0 +1,8 @@
+language: java
+jdk: oraclejdk8
+services:
+  mysql
+
+before_install:
+  - sudo mysql -e "use mysql; CREATE USER '20130570_db'@'localhost' IDENTIFIED BY '20130570_db'; GRANT ALL PRIVILEGES ON *.* TO '20130570_db'@'localhost'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo service mysql restart
