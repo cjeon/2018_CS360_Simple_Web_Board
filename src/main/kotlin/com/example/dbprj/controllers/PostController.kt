@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.servlet.view.RedirectView
 
 
 @Controller
@@ -32,12 +33,14 @@ class PostController {
     @PostMapping("/post")
     fun postPost(model: Model, @ModelAttribute postPayload: PostPayload): RedirectView {
         if (!postPayload.validatePayload(userServiceImpl)) {
-            return "error"
+            return RedirectView("error")
         }
-        postServiceImpl?.createPost(postPayload.toPostEntity())
-        return "view"
         model.addAttribute("title", postPayload.title)
         model.addAttribute("text", postPayload.text)
+        val post = postServiceImpl?.createPost(postPayload.toPostEntity())
+        return RedirectView("post/${post?.id ?: ""}")
+    }
+
     @GetMapping("/post/{post_id}")
     fun viewPost(model: Model, @PathVariable(value="post_id") post_id: String): String {
         val post = postServiceImpl?.repo?.findById(post_id.toLong())
