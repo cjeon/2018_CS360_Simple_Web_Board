@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Handling Form Submission</title>
+    <title>View Post</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
     <h1>You are viewing a post!</h1>
-    <p th:text="'title: ' + ${postPayload.title}"/>
-    <p th:text="'text: ' + ${postPayload.text}"/>
+    <p th:text="'title: ' + ${title}"/>
+    <p th:text="'text: ' + ${text}"/>
     <a href="/post">Submit another message</a>
 </body>
 </html>
