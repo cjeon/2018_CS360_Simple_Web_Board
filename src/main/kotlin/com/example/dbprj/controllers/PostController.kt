@@ -78,6 +78,12 @@ class PostController {
         model.addAllAttributes(mapOf("title" to updatedPost.title, "text" to updatedPost.text, "id" to updatedPost.id))
         return "view"
     }
+
+    @GetMapping("delete/{post_id}")
+    fun deletePost(model: Model, @PathVariable(value="post_id") post_id: String): String {
+        model.addAttribute("post_payload", PostPayload(id=post_id))
+        return "delete_validate"
+    }
 }
 
 data class PostPayload(var userId: String? = null,
