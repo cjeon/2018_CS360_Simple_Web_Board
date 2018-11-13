@@ -26,4 +26,9 @@ data class Post(@Id
                 var title: String? = null,
                 @NotNull
                 @Column(nullable = false)
-                var text: String? = null)
+                var text: String? = null,
+                @NotNull
+                @ManyToOne
+                @JoinColumn(name = "user_id", nullable = false)
+                var user: User? = null
+                )
