@@ -8,6 +8,8 @@
     <h1>You are viewing a post!</h1>
     <p th:text="'title: ' + ${title}"/>
     <p th:text="'text: ' + ${text}"/>
-    <a href="/post">Submit another message</a>
+    <form action="#" th:action="'/update/' + ${id}" method="get">
+        <p><input type="submit" value="Update" /></p>
+    </form>
 </body>
 </html>
