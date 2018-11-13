@@ -64,17 +64,10 @@ class PostController {
 
     @PostMapping("update/{post_id}")
     fun requestUpdatePost(model: Model, @ModelAttribute postPayload: PostPayload, @PathVariable(value="post_id") post_id: String): String {
-        // check if post exists. if not, return error.
-        val originalPost = postServiceImpl?.repo?.findById(post_id.toLong())?.get() ?: return "error"
-        // check if id & password matches
-        val user = originalPost.user ?: return "error"
-        if (user.userId != postPayload.userId || user.password != postPayload.password) {
-            return "error"
-        }
-        // if all test passes, save and return view
-        originalPost.title = postPayload.title
-        originalPost.text = postPayload.text
-        val updatedPost = postServiceImpl?.repo?.save(originalPost) ?: return "error"
+        val post = postServiceImpl?.validateUser(post_id, postPayload.userId, postPayload.password) ?: return "error"
+        post.title = postPayload.title
+        post.text = postPayload.text
+        val updatedPost = postServiceImpl?.repo?.save(post) ?: return "error"
         model.addAllAttributes(mapOf("title" to updatedPost.title, "text" to updatedPost.text, "id" to updatedPost.id))
         return "view"
     }
