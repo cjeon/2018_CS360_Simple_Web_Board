@@ -35,21 +35,22 @@ class PostController {
         if (!postPayload.validatePayload(userServiceImpl)) {
             return RedirectView("error")
         }
-        model.addAttribute("title", postPayload.title)
-        model.addAttribute("text", postPayload.text)
-        val post = postServiceImpl?.createPost(postPayload.toPostEntity())
-        return RedirectView("post/${post?.id ?: ""}")
+        val post = postServiceImpl?.createPost(postPayload.toPostEntity()) ?: return RedirectView("error")
+        model.addAllAttributes(mapOf("title" to post.title, "text" to post.text, "id" to post.id))
+        return RedirectView("post/${post.id ?: ""}")
     }
 
     @GetMapping("/post/{post_id}")
     fun readPost(model: Model, @PathVariable(value="post_id") post_id: String): String {
         val post = postServiceImpl?.repo?.findById(post_id.toLong())
-        if (post?.isPresent == true) {
-            model.addAttribute("title", post.get().title)
-            model.addAttribute("text", post.get().text)
-            return "view"
+        if (post?.isPresent != true) {
+            return "error"
         }
-        return "error"
+        val p = post.get()
+        model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id))
+        return "view"
+    }
+
     @GetMapping("update/{post_id}")
     fun updatePost(model: Model, @PathVariable(value="post_id") post_id: String): String {
         val post = postServiceImpl?.repo?.findById(post_id.toLong())
@@ -84,6 +85,7 @@ data class PostPayload(var userId: String? = null,
                        var id: String? = null,
                        var title: String? = null,
                        var text: String? = null) {
+
     /**
      * validates the payload.
      * 1. Payload should have valid id & password.
