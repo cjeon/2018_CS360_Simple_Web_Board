@@ -42,7 +42,7 @@ class PostController {
         if (!postPayload.validatePayload(userServiceImpl)) {
             return RedirectView("error")
         }
-        val post = postServiceImpl?.createPost(postPayload.toPostEntity()) ?: return RedirectView("error")
+        val post = postServiceImpl?.createPost(postPayload.toPostEntity(userServiceImpl)) ?: return RedirectView("error")
         model.addAllAttributes(mapOf("title" to post.title, "text" to post.text, "id" to post.id))
         return RedirectView("post/${post.id ?: ""}")
     }
@@ -116,5 +116,5 @@ data class PostPayload(var userId: String? = null,
         return results.firstOrNull { it.password == finalPassword } != null
     }
 
-    fun toPostEntity() = Post(title=this.title, text=this.text)
+    fun toPostEntity(userServiceImpl: UserServiceImpl?) = Post(title=this.title, text=this.text, user = userServiceImpl?.findByUserId(this.userId ?: "")?.first())
 }
