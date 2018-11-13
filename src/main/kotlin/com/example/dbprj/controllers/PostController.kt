@@ -24,6 +24,13 @@ class PostController {
     @NonNull
     var userServiceImpl: UserServiceImpl? = null
 
+    @GetMapping("/")
+    fun listPosts(model: Model): String {
+        val posts = postServiceImpl?.repo?.findAll()
+        model.addAttribute("posts", posts)
+        return "home"
+    }
+
     @GetMapping("/post")
     fun getPost(model: Model): String {
         model.addAttribute("post_payload", PostPayload())

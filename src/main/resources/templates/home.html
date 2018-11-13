@@ -2,6 +2,23 @@
 <head><title>Home Page</title></head>
 <body>
 <h1>Hello !</h1>
-<p>Welcome to <span th:text="${appName}">Our App</span></p>
+<p>Welcome to DBPRJ</span></p>
+<table>
+    <thead>
+    <tr>
+        <th> Title </th>
+        <th> Author </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${posts.empty}">
+        <td colspan="2"> No Posts Available </td>
+    </tr>
+    <tr th:each="post : ${posts}">
+        <td><a th:href="'/post/' + ${post.id}" th:text="${post.title}"></a></td>
+        <td><a th:href="'/post/' + ${post.id}" th:text="${post.user.userId}"></a></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
