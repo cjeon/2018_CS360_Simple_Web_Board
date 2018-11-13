@@ -50,11 +50,38 @@ class PostController {
             return "view"
         }
         return "error"
+    @GetMapping("update/{post_id}")
+    fun updatePost(model: Model, @PathVariable(value="post_id") post_id: String): String {
+        val post = postServiceImpl?.repo?.findById(post_id.toLong())
+        if (post?.isPresent != true) {
+            return "error"
+        }
+        val p = post.get()
+        model.addAllAttributes(mapOf( "post_payload" to PostPayload("", "", p.id.toString(), p.title, p.text)))
+        return "update"
+    }
+
+    @PostMapping("update/{post_id}")
+    fun requestUpdatePost(model: Model, @ModelAttribute postPayload: PostPayload, @PathVariable(value="post_id") post_id: String): String {
+        // check if post exists. if not, return error.
+        val originalPost = postServiceImpl?.repo?.findById(post_id.toLong())?.get() ?: return "error"
+        // check if id & password matches
+        val user = originalPost.user ?: return "error"
+        if (user.userId != postPayload.userId || user.password != postPayload.password) {
+            return "error"
+        }
+        // if all test passes, save and return view
+        originalPost.title = postPayload.title
+        originalPost.text = postPayload.text
+        val updatedPost = postServiceImpl?.repo?.save(originalPost) ?: return "error"
+        model.addAllAttributes(mapOf("title" to updatedPost.title, "text" to updatedPost.text, "id" to updatedPost.id))
+        return "view"
     }
 }
 
 data class PostPayload(var userId: String? = null,
                        var password: String? = null,
+                       var id: String? = null,
                        var title: String? = null,
                        var text: String? = null) {
     /**
