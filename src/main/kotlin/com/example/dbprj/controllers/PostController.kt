@@ -35,28 +35,57 @@ class PostController {
         if (!postPayload.validatePayload(userServiceImpl)) {
             return RedirectView("error")
         }
-        model.addAttribute("title", postPayload.title)
-        model.addAttribute("text", postPayload.text)
-        val post = postServiceImpl?.createPost(postPayload.toPostEntity())
-        return RedirectView("post/${post?.id ?: ""}")
+        val post = postServiceImpl?.createPost(postPayload.toPostEntity()) ?: return RedirectView("error")
+        model.addAllAttributes(mapOf("title" to post.title, "text" to post.text, "id" to post.id))
+        return RedirectView("post/${post.id ?: ""}")
     }
 
     @GetMapping("/post/{post_id}")
     fun readPost(model: Model, @PathVariable(value="post_id") post_id: String): String {
         val post = postServiceImpl?.repo?.findById(post_id.toLong())
-        if (post?.isPresent == true) {
-            model.addAttribute("title", post.get().title)
-            model.addAttribute("text", post.get().text)
-            return "view"
+        if (post?.isPresent != true) {
+            return "error"
         }
-        return "error"
+        val p = post.get()
+        model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id))
+        return "view"
+    }
+
+    @GetMapping("update/{post_id}")
+    fun updatePost(model: Model, @PathVariable(value="post_id") post_id: String): String {
+        val post = postServiceImpl?.repo?.findById(post_id.toLong())
+        if (post?.isPresent != true) {
+            return "error"
+        }
+        val p = post.get()
+        model.addAllAttributes(mapOf( "post_payload" to PostPayload("", "", p.id.toString(), p.title, p.text)))
+        return "update"
+    }
+
+    @PostMapping("update/{post_id}")
+    fun requestUpdatePost(model: Model, @ModelAttribute postPayload: PostPayload, @PathVariable(value="post_id") post_id: String): String {
+        // check if post exists. if not, return error.
+        val originalPost = postServiceImpl?.repo?.findById(post_id.toLong())?.get() ?: return "error"
+        // check if id & password matches
+        val user = originalPost.user ?: return "error"
+        if (user.userId != postPayload.userId || user.password != postPayload.password) {
+            return "error"
+        }
+        // if all test passes, save and return view
+        originalPost.title = postPayload.title
+        originalPost.text = postPayload.text
+        val updatedPost = postServiceImpl?.repo?.save(originalPost) ?: return "error"
+        model.addAllAttributes(mapOf("title" to updatedPost.title, "text" to updatedPost.text, "id" to updatedPost.id))
+        return "view"
     }
 }
 
 data class PostPayload(var userId: String? = null,
                        var password: String? = null,
+                       var id: String? = null,
                        var title: String? = null,
                        var text: String? = null) {
+
     /**
      * validates the payload.
      * 1. Payload should have valid id & password.
