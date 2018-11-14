@@ -64,19 +64,26 @@ class PostController {
 
     @PostMapping("update/{post_id}")
     fun requestUpdatePost(model: Model, @ModelAttribute postPayload: PostPayload, @PathVariable(value="post_id") post_id: String): String {
-        // check if post exists. if not, return error.
-        val originalPost = postServiceImpl?.repo?.findById(post_id.toLong())?.get() ?: return "error"
-        // check if id & password matches
-        val user = originalPost.user ?: return "error"
-        if (user.userId != postPayload.userId || user.password != postPayload.password) {
-            return "error"
-        }
-        // if all test passes, save and return view
-        originalPost.title = postPayload.title
-        originalPost.text = postPayload.text
-        val updatedPost = postServiceImpl?.repo?.save(originalPost) ?: return "error"
+        val post = postServiceImpl?.validateUser(post_id, postPayload.userId, postPayload.password) ?: return "error"
+        post.title = postPayload.title
+        post.text = postPayload.text
+        val updatedPost = postServiceImpl?.repo?.save(post) ?: return "error"
         model.addAllAttributes(mapOf("title" to updatedPost.title, "text" to updatedPost.text, "id" to updatedPost.id))
         return "view"
+    }
+
+    @GetMapping("delete/{post_id}")
+    fun deletePost(model: Model, @PathVariable(value="post_id") post_id: String): String {
+        model.addAttribute("post_payload", PostPayload(id=post_id))
+        return "delete_validate"
+    }
+
+    @PostMapping("delete/{post_id}")
+    fun requestDeletePost(model: Model, @ModelAttribute postPayload: PostPayload, @PathVariable(value="post_id") post_id: String): RedirectView {
+        model.addAttribute("post_payload", PostPayload(id=post_id))
+        val post = postServiceImpl?.validateUser(post_id, postPayload.userId, postPayload.password) ?: return RedirectView("error")
+        postServiceImpl?.repo?.delete(post)
+        return RedirectView("/")
     }
 }
 

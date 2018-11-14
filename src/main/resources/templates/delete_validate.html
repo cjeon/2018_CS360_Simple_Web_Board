@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirm deletion</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Delete a post!</h1>
+<form action="#" th:action="'/delete/' + ${post_payload.id}" th:object="${post_payload}" method="post">
+    <p>User Id: <input type="text" th:field="*{userId}" /></p>
+    <p>Password: <input type="text" th:field="*{password}" /></p>
+    <p><input type="submit" value="Submit" /> </p>
+</form>
+</body>
+</html>
