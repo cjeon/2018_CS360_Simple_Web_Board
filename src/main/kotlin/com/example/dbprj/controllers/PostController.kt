@@ -1,5 +1,6 @@
 package com.example.dbprj.controllers
 
+import com.example.dbprj.DbImpls.CommentServiceImpl
 import com.example.dbprj.DbImpls.PostServiceImpl
 import com.example.dbprj.DbImpls.UserServiceImpl
 import com.example.dbprj.entities.Post
@@ -23,6 +24,11 @@ class PostController {
     @Autowired
     @NonNull
     var userServiceImpl: UserServiceImpl? = null
+
+    // todo declare comment service impl here
+    @Autowired
+    @NonNull
+    var commentServiceImpl: CommentServiceImpl? = null
 
     @GetMapping("/")
     fun listPosts(model: Model): String {
@@ -54,7 +60,9 @@ class PostController {
             return "error"
         }
         val p = post.get()
-        model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id))
+        // todo get comments and add to model
+        val comments = commentServiceImpl?.findByPostId(p.id!!)
+        model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id, "comments" to comments))
         return "view"
     }
 
