@@ -24,6 +24,8 @@ class PostController {
     @NonNull
     var userServiceImpl: UserServiceImpl? = null
 
+    // todo declare comment service impl here
+
     @GetMapping("/")
     fun listPosts(model: Model): String {
         val posts = postServiceImpl?.repo?.findAll()
@@ -54,6 +56,7 @@ class PostController {
             return "error"
         }
         val p = post.get()
+        // todo get comments and add to model
         model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id))
         return "view"
     }
