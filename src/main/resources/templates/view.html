@@ -8,7 +8,24 @@
     <h1>You are viewing a post!</h1>
     <p th:text="'title: ' + ${title}"/>
     <p th:text="'text: ' + ${text}"/>
-    <!-- todo add comment table here. see list.html -->
+    <table>
+        <thead>
+        <tr>
+            <th> Author </th>
+            <th> Text </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${comments.empty}">
+            <td colspan="2"> No Comments Available </td>
+        </tr>
+        <tr th:each="comment : ${comments}">
+            <td th:text="${comment.user.userId}"> </td>
+            <td th:text="${comment.text}"></td>
+        </tr>
+        </tbody>
+    </table>
+
     <form action="#" th:action="'/update/' + ${id}" method="get">
         <p><input type="submit" value="Update" /></p>
     </form>
