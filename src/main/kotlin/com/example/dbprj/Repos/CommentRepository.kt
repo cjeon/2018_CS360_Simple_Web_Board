@@ -6,5 +6,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CommentRepository: JpaRepository<Comment, Long> {
-    fun findByPostId(PostId: Long): List<Comment>
+    /**
+     * todo
+     * add findByPostId. see UserRepository
+     */
 }

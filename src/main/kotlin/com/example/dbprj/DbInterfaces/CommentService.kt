@@ -1,8 +1,14 @@
 package com.example.dbprj.DbInterfaces
 
-import com.example.dbprj.entities.Comment
-
 interface CommentService {
-    fun createComment(comment: Comment): Comment
-    fun findByPostId(postId: Long): List<Comment>
+    /**
+     * todo
+     * add createComment function
+     * see PostService
+     */
+
+    /**
+     * todo
+     * add any function that can be used to find comments that belong to a post.
+     */
 }

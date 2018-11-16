@@ -20,17 +20,10 @@ data class Comment(@Id
                 @Temporal(TemporalType.TIMESTAMP)
                 @field:UpdateTimestamp
                 @Column(name = "updated_at", nullable = false)
-                var updatedAt: Date? = null,
-                @NotNull
-                @Column(nullable = false)
-                var text: String? = null,
-                @NotNull
-                @ManyToOne
-                @JoinColumn(name = "post_id", nullable = false)
-                var post: Post? = null,
-                @NotNull
-                @ManyToOne
-                @JoinColumn(name = "user_id", nullable = false)
-                var user: User? = null
-
+                var updatedAt: Date? = null
+                /*
+                * todo ADD text, user, post column
+                * see Post.kt for help
+                * column names should be `text`, `post_id`, `user_id`
+                * */
 )

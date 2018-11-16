@@ -8,9 +8,15 @@ import org.springframework.stereotype.Service
 
 @Service
 class CommentServiceImpl @Autowired constructor(val repo: CommentRepository): CommentService {
-    override fun createComment(comment: Comment): Comment {
-        repo.save(comment)
-        return comment
-    }
-    override fun findByPostId(postId: Long) : List<Comment> = repo.findByPostId(postId)
+    /**
+     * todo
+     * add createComment function at CommentService and implement it here.
+     * see PostServiceImpl
+     */
+
+    /**
+     * todo
+     * add findByPostId function at CommentService and implement it here.
+     * see UserServiceImpl
+     */
 }

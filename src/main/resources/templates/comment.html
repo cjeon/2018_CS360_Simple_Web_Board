@@ -6,11 +6,6 @@
 </head>
 <body>
 <h1>Leave a comment!</h1>
-<form action="#" th:action="'/comment/' + ${comment_payload.postId}" th:object="${comment_payload}" method="post">
-    <p>User Id: <input type="text" th:field="*{userId}" /></p>
-    <p>Password: <input type="text" th:field="*{password}" /></p>
-    <p>Text: <input type="text" th:field="*{text}" /></p>
-    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-</form>
+<!-- todo : implement a form here. see update.html -->
 </body>
 </html>
