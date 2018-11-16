@@ -36,6 +36,7 @@ class CommentController {
 
     @PostMapping("comment/{post_id}")
     fun requestLeaveComment(model: Model, @ModelAttribute commentPayload: CommentPayload, @PathVariable(value="post_id") post_id: String): RedirectView {
+        if(userServiceImpl?.validateUser(commentPayload.userId!!, commentPayload.password!!) != true) return RedirectView("/error")
 
         val comment = Comment(
                 text = commentPayload.text,
