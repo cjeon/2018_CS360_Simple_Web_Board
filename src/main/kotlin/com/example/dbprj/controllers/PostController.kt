@@ -2,6 +2,7 @@ package com.example.dbprj.controllers
 
 import com.example.dbprj.DbImpls.CommentServiceImpl
 import com.example.dbprj.DbImpls.PostServiceImpl
+import com.example.dbprj.DbImpls.ReportServiceImpl
 import com.example.dbprj.DbImpls.UserServiceImpl
 import com.example.dbprj.entities.Post
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,6 +29,10 @@ class PostController {
     @Autowired
     @NonNull
     var commentServiceImpl: CommentServiceImpl? = null
+
+    @Autowired
+    @NonNull
+    var reportServiceImpl: ReportServiceImpl? = null
 
     @GetMapping("/")
     fun listPosts(model: Model): String {
@@ -60,7 +65,8 @@ class PostController {
         }
         val p = post.get()
         val c = commentServiceImpl?.findByPostId(p.id!!)
-        model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id, "comments" to c))
+        val r = reportServiceImpl?.findReportByPostId(p.id!!)
+        model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id, "comments" to c, "report" to r))
         return "view"
     }
 
