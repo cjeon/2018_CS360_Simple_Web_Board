@@ -1,6 +1,5 @@
 package com.example.dbprj.controllers
 
-import com.example.dbprj.DbImpls.CommentServiceImpl
 import com.example.dbprj.DbImpls.PostServiceImpl
 import com.example.dbprj.DbImpls.UserServiceImpl
 import com.example.dbprj.DbImpls.ReportServiceImpl
@@ -27,10 +26,6 @@ class ReportController {
 
     @Autowired
     @NonNull
-    var commentServiceImpl: CommentServiceImpl? = null
-
-    @Autowired
-    @NonNull
     var reportServiceImpl: ReportServiceImpl? = null
 
     @GetMapping("report/{post_id}")
@@ -42,24 +37,23 @@ class ReportController {
     @PostMapping("report/{post_id}")
     fun requestGetReport(model: Model, @ModelAttribute reportPayload: ReportPayload, @PathVariable(value="post_id") post_id: String): RedirectView {
         if(userServiceImpl?.validateUser(reportPayload.userId!!, reportPayload.password!!) != true) return RedirectView("/error")
-        if(reportServiceImpl?.repo?.findReportByPostId(post_id.toLong())!!.isEmpty()){
+        val currentReports = reportServiceImpl?.repo?.findReportByPostId(post_id.toLong())!!
+        if(currentReports.isEmpty()){
+            model.addAttribute("post_payload", ReportPayload(postId = post_id))
             val report = Report(
-                    reportCount = 1,
                     post = postServiceImpl?.repo?.findById(post_id.toLong())?.get(),
                     user = userServiceImpl?.repo?.findByUserId(reportPayload.userId!!)?.first())
             reportServiceImpl?.repo?.save(report)
             return RedirectView("/post/$post_id")
         }
+        for(item in currentReports){
+            var currentID = item.user?.userId
+            if(currentID == reportPayload.userId) return RedirectView("/error")
+        }
         model.addAttribute("post_payload", ReportPayload(postId = post_id))
-        val currentReport = reportServiceImpl?.repo?.findReportByPostId(post_id.toLong())?.first()
-        val currentCount = currentReport?.reportCount
-        val currentID = currentReport?.user?.userId
-        if(currentID == reportPayload.userId) return RedirectView("/error")
         val report = Report(
-                reportCount = currentCount!! + 1,
                 post = postServiceImpl?.repo?.findById(post_id.toLong())?.get(),
                 user = userServiceImpl?.repo?.findByUserId(reportPayload.userId!!)?.first())
-        reportServiceImpl?.repo?.delete(currentReport)
         reportServiceImpl?.repo?.save(report)
         return RedirectView("/post/$post_id")
     }
@@ -67,5 +61,4 @@ class ReportController {
 
 data class ReportPayload(var userId: String? = null,
                           var password: String? =null,
-                          var counter: Int? = 0,
                           var postId: String? = null)

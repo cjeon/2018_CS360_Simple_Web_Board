@@ -22,9 +22,6 @@ data class Report(@Id
                   @Column(name = "updated_at", nullable = false)
                   var updatedAt: Date? = null,
                   @NotNull
-                  @Column(nullable = false)
-                  var reportCount: Int? = 0,
-                  @NotNull
                   @ManyToOne
                   @JoinColumn(name = "post_id", nullable = false)
                   var post: Post? = null,

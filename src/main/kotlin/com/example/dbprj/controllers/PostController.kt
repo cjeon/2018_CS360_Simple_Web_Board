@@ -66,7 +66,9 @@ class PostController {
         val p = post.get()
         val c = commentServiceImpl?.findByPostId(p.id!!)
         val r = reportServiceImpl?.findReportByPostId(p.id!!)
-        model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id, "comments" to c, "report" to r))
+        var rC = r!!.size
+
+        model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id, "comments" to c, "reports" to r, "counter" to rC))
         return "view"
     }
 
