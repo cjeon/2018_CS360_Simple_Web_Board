@@ -40,5 +40,6 @@
     <form action="#" th:action="'/delete/' + ${id}" method="get">
         <p><input type="submit" value="Delete" /></p>
     </form>
+    <p>Current Report : "<output type="text" th:text="${counter}" />"</p>
 </body>
 </html>
