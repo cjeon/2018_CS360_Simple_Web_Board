@@ -1,6 +1,5 @@
 package com.example.dbprj.controllers
 
-import com.example.dbprj.DbImpls.CommentServiceImpl
 import com.example.dbprj.DbImpls.PostServiceImpl
 import com.example.dbprj.DbImpls.UserServiceImpl
 import com.example.dbprj.DbImpls.ReportServiceImpl
@@ -24,10 +23,6 @@ class ReportController {
     @Autowired
     @NonNull
     var userServiceImpl: UserServiceImpl? = null
-
-    @Autowired
-    @NonNull
-    var commentServiceImpl: CommentServiceImpl? = null
 
     @Autowired
     @NonNull
@@ -67,5 +62,4 @@ class ReportController {
 
 data class ReportPayload(var userId: String? = null,
                           var password: String? =null,
-                          var counter: Int? = 0,
                           var postId: String? = null)
