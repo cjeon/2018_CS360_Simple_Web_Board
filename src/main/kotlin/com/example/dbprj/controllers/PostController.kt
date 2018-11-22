@@ -84,13 +84,13 @@ class PostController {
     }
 
     @PostMapping("update/{post_id}")
-    fun requestUpdatePost(model: Model, @ModelAttribute postPayload: PostPayload, @PathVariable(value="post_id") post_id: String): String {
-        val post = postServiceImpl?.validateUser(post_id, postPayload.userId, postPayload.password) ?: return "error"
+    fun requestUpdatePost(model: Model, @ModelAttribute postPayload: PostPayload, @PathVariable(value="post_id") post_id: String): RedirectView {
+        val post = postServiceImpl?.validateUser(post_id, postPayload.userId, postPayload.password) ?: return RedirectView("/error")
         post.title = postPayload.title
         post.text = postPayload.text
-        val updatedPost = postServiceImpl?.repo?.save(post) ?: return "error"
+        val updatedPost = postServiceImpl?.repo?.save(post) ?: return RedirectView("/error")
         model.addAllAttributes(mapOf("title" to updatedPost.title, "text" to updatedPost.text, "id" to updatedPost.id))
-        return "view"
+        return RedirectView("/post/$post_id")
     }
 
     @GetMapping("delete/{post_id}")
