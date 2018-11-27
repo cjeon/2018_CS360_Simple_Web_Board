@@ -1,8 +1,5 @@
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Home Page</title></head>
-<body>
-<h1>Hello !</h1>
-<p>Welcome to DBPRJ</span></p>
 <table>
     <thead>
     <tr>
@@ -12,7 +9,7 @@
     </thead>
     <tbody>
     <tr th:if="${posts.empty}">
-        <td colspan="2"> No Posts Available </td>
+        <td colspan="2"> No Bookmarks!! </td>
     </tr>
     <tr th:each="post : ${posts}">
         <td><a th:href="'/post/' + ${post.id}" th:text="${post.title}"></a></td>
@@ -20,8 +17,8 @@
     </tr>
     </tbody>
 </table>
-<form action="#" th:action="'/bookmark2/' + ${id}" method="get">
-    <p><input type="submit" value="Bookmark" /></p>
+<form action="#" th:action="'/home/' + ${id}" method="get">
+    <p><input type="submit" value="Back" /></p>
 </form>
 </body>
 </html>
