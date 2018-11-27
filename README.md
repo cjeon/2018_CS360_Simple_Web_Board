@@ -8,7 +8,11 @@ Term project for 2018 CS360 Introduction to Database.
 
 ## Project Objective
 
-Build a micro web board that utilizes DB operations including views and triggers etc.
+Build a micro web board that utilizes DB operations including 
+* Basic CRUD operation
+* Join operation
+* Subquery operation
+* views and triggers
 
 ## Tables 
 
