@@ -1,6 +1,11 @@
 # 2018 CS360 Term Project
 
-Term project for 2018 CS360 Introduction to Database. 
+Term project for 2018 CS360 Introduction to Database.  
+<div style="text-align:center">
+<img src="https://raw.githubusercontent.com/cjeon/2018_CS360_Simple_Web_Board/master/imgs/post_view.png" alt="post_view" width="400"/>
+</div>
+
+___
 
 ## Team members
 
@@ -32,4 +37,5 @@ User can CR comment. User can create report. User can CRD bookmark.
 
 (insert screenshot here)
 
-asd
+## Service Stack
+![service_stack](imgs/service_stack.png)
