@@ -1,9 +1,6 @@
 package com.example.dbprj.controllers
 
-import com.example.dbprj.DbImpls.CommentServiceImpl
-import com.example.dbprj.DbImpls.PostServiceImpl
-import com.example.dbprj.DbImpls.ReportServiceImpl
-import com.example.dbprj.DbImpls.UserServiceImpl
+import com.example.dbprj.DbImpls.*
 import com.example.dbprj.entities.Post
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.lang.NonNull
@@ -34,12 +31,18 @@ class PostController {
     @NonNull
     var reportServiceImpl: ReportServiceImpl? = null
 
+    @Autowired
+    @NonNull
+    var bookmarkServiceImpl: BookmarkServiceImpl? = null
+
     @GetMapping("/")
     fun listPosts(model: Model): String {
         val posts = postServiceImpl?.repo?.findAll()
         model.addAttribute("posts", posts)
         return "home"
     }
+
+
 
     @GetMapping("/post")
     fun getPost(model: Model): String {
@@ -66,9 +69,10 @@ class PostController {
         val p = post.get()
         val c = commentServiceImpl?.findByPostId(p.id!!)
         val r = reportServiceImpl?.findReportByPostId(p.id!!)
+        val b = bookmarkServiceImpl?.findBookmarkByPostId(p.id!!)
         var rC = r!!.size
 
-        model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id, "comments" to c, "reports" to r, "counter" to rC))
+        model.addAllAttributes(mapOf("title" to p.title, "text" to p.text, "id" to p.id, "comments" to c, "reports" to r, "bookmarks" to b, "counter" to rC))
         return "view"
     }
 

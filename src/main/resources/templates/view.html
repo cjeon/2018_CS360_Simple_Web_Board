@@ -37,6 +37,10 @@
         <p><input type="submit" value="Report" /></p>
     </form>
 
+    <form action="#" th:action="'/bookmark/' + ${id}" method="get">
+        <p><input type="submit" value="Bookmark" /></p>
+    </form>
+
     <form action="#" th:action="'/delete/' + ${id}" method="get">
         <p><input type="submit" value="Delete" /></p>
     </form>
