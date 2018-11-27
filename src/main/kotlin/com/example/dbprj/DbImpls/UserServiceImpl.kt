@@ -12,11 +12,5 @@ class UserServiceImpl @Autowired constructor(val repo: UserRepository): UserServ
 
     override fun findByUserId(userId: String) : List<User> = repo.findByUserId(userId)
 
-    fun validateUser(userId : String, password : String) : Boolean {
-        val list : List<User> = findByUserId(userId)
-        if(list.isEmpty()) return false
-        val foundUser : User = list.first()
-        if(foundUser.password == password) return true
-        return false
-    }
+    fun validateUser(userId : String, password : String) : Boolean = repo.isValidUser(userId, password)
 }
