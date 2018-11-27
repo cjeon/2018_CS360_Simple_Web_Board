@@ -1,6 +1,6 @@
 # 2018 CS360 Term Project
 
-Term project for 2018 CS360 Introduction to Database.
+Term project for 2018 CS360 Introduction to Database. 
 
 ## Team members
 
