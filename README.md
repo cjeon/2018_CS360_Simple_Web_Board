@@ -4,11 +4,15 @@ Term project for 2018 CS360 Introduction to Database.
 
 ## Team members
 
-전철호(@cjeon), 배성범(@bsb0579)
+전철호([@cjeon](https://github.com/cjeon)), 배성범([@bsb0579](https://github.com/bsb0579))
 
 ## Project Objective
 
-Build a micro web board that utilizes DB operations including views and triggers etc.
+Build a micro web board that utilizes DB operations including 
+* Basic CRUD operation
+* Join operation
+* Subquery operation
+* views and triggers
 
 ## Tables 
 
