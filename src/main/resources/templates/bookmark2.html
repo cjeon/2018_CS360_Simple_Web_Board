@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Show Bookmarks!!</h1>
-<form action="#" th:action="'/bookmark2/' + ${post_payload}" method="post">
+<form action="#" th:action="'/bookmark2/'" th:object="${post_payload}" method="post">
     <p>User Id: <input type="text" th:field="*{userId}" ></p>
     <p>Password: <input type="text" th:field="*{password}" /></p>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>

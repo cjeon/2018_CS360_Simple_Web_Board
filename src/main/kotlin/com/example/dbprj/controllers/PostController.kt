@@ -42,32 +42,6 @@ class PostController {
         return "home"
     }
 
-    @GetMapping("bookmark2")
-    fun getBookmark(model: Model): String {
-        model.addAttribute("post_payload", PostPayload())
-        return "bookmark2"
-    }
-
-    @PostMapping("bookmark2")
-    fun goBookmark(model: Model, @ModelAttribute postPayload: PostPayload): RedirectView {
-        if (!postPayload.validatePayload(userServiceImpl)) {
-            return RedirectView("error")
-        }
-        val id = postPayload.userId
-        model.addAllAttributes(mapOf("id" to id))
-        return RedirectView("bookmark_list/${id ?: ""}")
-    }
-
-    @GetMapping("bookmark_list/{post_id}")
-    fun listBookmarks(model: Model, @PathVariable(value="post_id") userId: String): String {
-        var Bookmarks = bookmarkServiceImpl?.findBookmarkByUserId(userId.toLong())!!
-        val lists = mutableListOf<Post>()
-        for(item in Bookmarks){
-            lists.add(item.post!!)
-        }
-        model.addAttribute("posts", lists)
-        return "bookmark_list"
-    }
 
 
     @GetMapping("/post")
