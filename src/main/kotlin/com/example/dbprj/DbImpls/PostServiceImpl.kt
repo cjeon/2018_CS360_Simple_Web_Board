@@ -35,15 +35,17 @@ class PostServiceImpl @Autowired constructor(val repo: PostRepository) : PostSer
         val postOptional = repo.findById(postId.toLong())
         if (!postOptional.isPresent) return null
         val post = postOptional.get()
-        val user = post.user ?: return null
+        val author = post.user ?: return null
         // 억지로 native query 를 활용해서 view 를 사용한다.
-        val userFromView = jdbcTemplate!!.queryForList(getQuery(user.id!!)).first()
+        val userFromView = jdbcTemplate!!.queryForList(getQuery(author.id!!)).first()
         // 글의 작성자이면
         if (userFromView["user_id"] == userId && userFromView["password"] == userPassword) {
             return post
         }
 
         // 유저가 어드민이면
+        val user = userServiceImpl?.findByUserId(userId)?.firstOrNull() ?: return null
+        if (user.password != userPassword) return null
         if (user.isAdmin == true) {
             return post
         }

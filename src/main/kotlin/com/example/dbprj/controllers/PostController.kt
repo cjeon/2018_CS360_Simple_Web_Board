@@ -106,7 +106,7 @@ class PostController {
     @PostMapping("delete/{post_id}")
     fun requestDeletePost(model: Model, @ModelAttribute postPayload: PostPayload, @PathVariable(value="post_id") post_id: String): RedirectView {
         model.addAttribute("post_payload", PostPayload(id=post_id))
-        val post = postServiceImpl?.validateUser(post_id, postPayload.userId, postPayload.password) ?: return RedirectView("error")
+        val post = postServiceImpl?.validateUser(post_id, postPayload.userId, postPayload.password) ?: return RedirectView("/error")
         postServiceImpl?.repo?.delete(post)
         return RedirectView("/")
     }
