@@ -8,12 +8,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${posts.empty}">
+    <tr th:if="${bookmarks.empty}">
         <td colspan="2"> No Bookmarks!! </td>
     </tr>
-    <tr th:each="post : ${posts}">
-        <td><a th:href="'/post/' + ${post.id}" th:text="${post.title}"></a></td>
-        <td><a th:href="'/post/' + ${post.id}" th:text="${post.user.userId}"></a></td>
+    <tr th:each="post : ${bookmarks}">
+        <td><a th:href="'/post/' + ${post[1]}" th:text="${post[0]}"></a></td>
+        <td><a th:href="'/post/' + ${post[1]}" th:text="${post[2]}"></a></td>
     </tr>
     </tbody>
 </table>

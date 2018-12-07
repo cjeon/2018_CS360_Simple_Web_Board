@@ -12,6 +12,6 @@ class BookmarkServiceImpl @Autowired constructor(val repo: BookmarkRepository): 
         repo.save(bookmark)
         return bookmark
     }
-    override fun findBookmarkByUserId(userId: Long) : List<Bookmark> = repo.findBookmarkByUserId(userId)
+    override fun findBookmarkByUserId(userId: Long) : List<Any> = repo.findBookmarkByUserId(userId)
     override fun findBookmarkByPostId(postId: Long) : List<Bookmark> = repo.findBookmarkByPostId(postId)
 }

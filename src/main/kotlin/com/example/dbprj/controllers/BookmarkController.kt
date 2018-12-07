@@ -79,8 +79,7 @@ class BookmarkController {
     fun listBookmarks(model: Model, @PathVariable(value="post_id") userId: String): String {
         val user = userServiceImpl?.findByUserId(userId)?.first()!!
         val bookmarks = bookmarkServiceImpl?.findBookmarkByUserId(user.id!!)!!
-        val list = bookmarks.map { it.post!! }
-        model.addAttribute("posts", list)
+        model.addAttribute("bookmarks", bookmarks)
         return "bookmark_list"
     }
 }

@@ -16,7 +16,7 @@ class PostServiceImpl @Autowired constructor(val repo: PostRepository) : PostSer
     @NonNull
     private val jdbcTemplate: JdbcTemplate? = null
 
-    private fun getQuery(id: Long) = "select * from `user_id_pw` where id = '$id'"
+
 
     @Autowired
     @NonNull
@@ -27,8 +27,13 @@ class PostServiceImpl @Autowired constructor(val repo: PostRepository) : PostSer
         return post
     }
 
+    private fun getQuery(id: Long) = "select * from `user_id_pw` where id = '$id'"
+
     /**
-     * validate 되었으면 Post 를 return. else, null.
+     * Used to validate user. If the user
+     * 1. Is writer of the post or
+     * 2. Has admin privilege
+     * return post. else, return null.
      */
     fun validateUser(postId: String, userId: String?, userPassword: String?): Post? {
         if (userId == null || userPassword == null) return null;
@@ -36,20 +41,20 @@ class PostServiceImpl @Autowired constructor(val repo: PostRepository) : PostSer
         if (!postOptional.isPresent) return null
         val post = postOptional.get()
         val author = post.user ?: return null
-        // 억지로 native query 를 활용해서 view 를 사용한다.
-        val userFromView = jdbcTemplate!!.queryForList(getQuery(author.id!!)).first()
-        // 글의 작성자이면
-        if (userFromView["user_id"] == userId && userFromView["password"] == userPassword) {
+        // use view via native query.
+        val authorInfo = jdbcTemplate!!.queryForList(getQuery(author.id!!)).first()
+        // if is author of the post
+        if (authorInfo["user_id"] == userId && authorInfo["password"] == userPassword) {
             return post
         }
 
-        // 유저가 어드민이면
+        // if is admin
         val user = userServiceImpl?.findByUserId(userId)?.firstOrNull() ?: return null
         if (user.password != userPassword) return null
         if (user.isAdmin == true) {
             return post
         }
-        // 해당이 없으면
+        // if satisfies nothing
         return null
     }
 }
